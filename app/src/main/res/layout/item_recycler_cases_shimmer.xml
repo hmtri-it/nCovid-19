@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/categoryCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/google_sans_bold"
+                android:maxLines="2"
+                android:text="Country"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_timeline"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_timeline_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:id="@+id/cases"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Number of Cases: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/caseValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_regular"
+                    android:text="45"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/recoveredlabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Recoveries: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/recovered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_regular"
+                    android:text="45"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_user"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_user_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:id="@+id/criticallabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Deaths: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/critical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="45"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/deathslabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Critical: "
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/deaths"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="N/A"
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_exposure"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_exposure_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:id="@+id/today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Today's Cases: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/todayCases"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="N/A"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

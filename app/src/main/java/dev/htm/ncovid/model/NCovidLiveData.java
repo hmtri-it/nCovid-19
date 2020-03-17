@@ -8,7 +8,7 @@ import lombok.Data;
 public class NCovidLiveData implements Serializable {
 
     private String country;
-    private long cases;
+    private String cases;
     private long todayCases;
     private long deaths;
     private long todayDeaths;

@@ -5,10 +5,8 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static dev.htm.ncovid.BuildConfig.BASE_URL;
@@ -18,24 +16,24 @@ import static dev.htm.ncovid.BuildConfig.BASE_URL;
  * Base url: https://corona.lmao.ninja/
  * Get the endpoint https://corona.lmao.ninja/all to get information for all cases
  * get the endpoint https://corona.lmao.ninja/countries for getting the data sorted country wise
- * get the endpoint https://corona.lmao.ninja/countries/[country-name] for getting the data for a specific country
+ * get the endpoint https://corona.lmao.ninja/countries/[country-country_name] for getting the data for a specific country
  */
 public class FetchAsyncData extends AsyncTask<String, Void, String> {
 
+    public static final String ALL = "all";
+    public static final String COUNTRIES = "countries";
     private static final String TAG = FetchAsyncData.class.getSimpleName();
-
+    public final String COUNTRIES_NAME = "countries/";
     private Context context;
     private String endpoint;
     private OnCallback callback;
+    private String type;
 
-    public static final String ALL = "all";
-    public static final String COUNTRIES = "countries";
-    public final String COUNTRIES_NAME = "countries/";
-
-    public FetchAsyncData(Context context, String endpoint, OnCallback callback) {
+    public FetchAsyncData(Context context, String endpoint, OnCallback callback, String type) {
         this.context = context;
         this.endpoint = endpoint;
         this.callback = callback;
+        this.type = type;
     }
 
     @Override
@@ -62,7 +60,7 @@ public class FetchAsyncData extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         if (result != null) {
-            callback.onSuccess(result);
+            callback.onSuccess(type, result);
         }
     }
 }

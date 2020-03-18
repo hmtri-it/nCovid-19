@@ -9,6 +9,7 @@ CoronaVirus Tracker Android App
 - News Feed
 - Country wise searching
 - PieChart
+- Support sort by property
 
 # API used 
 

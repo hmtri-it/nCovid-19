@@ -64,7 +64,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginRight="15dp"
                     android:fontFamily="@font/google_sans_regular"
-                    android:text="45"
+                    android:text="N/A"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14dp" />
 
@@ -85,7 +85,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginRight="15dp"
                     android:fontFamily="@font/google_sans_regular"
-                    android:text="45"
+                    android:text="N/A"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -106,33 +106,12 @@
                     tools:ignore="VectorDrawableCompat" />
 
                 <TextView
-                    android:id="@+id/criticallabel"
+                    android:id="@+id/deathslabel"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="23dp"
                     android:layout_marginTop="3dp"
                     android:fontFamily="@font/google_sans_medium"
                     android:text="Deaths: "
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:id="@+id/critical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginRight="15dp"
-                    android:fontFamily="@font/google_sans_medium"
-                    android:text="45"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:id="@+id/deathslabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/google_sans_medium"
-                    android:text="Critical: "
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
 
@@ -145,6 +124,27 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="N/A"
                     android:textColor="@android:color/black"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/criticallabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Critical: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/critical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="N/A"
+                    android:textColor="@color/colorPrimaryText"
                     android:textSize="14dp" />
             </LinearLayout>
 
@@ -175,6 +175,44 @@
 
                 <TextView
                     android:id="@+id/todayCases"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="N/A"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_exposure_todayDeaths"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_exposure_black_death_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:id="@+id/lbtodayDeaths"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Today's Deaths: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/todayDeaths"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"

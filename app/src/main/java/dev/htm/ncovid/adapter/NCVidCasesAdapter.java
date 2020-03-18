@@ -85,6 +85,7 @@ public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
         holder.critical.setText(String.valueOf(nCovidLiveData.getCritical()));
         holder.deaths.setText(String.valueOf(nCovidLiveData.getDeaths()));
         holder.todayCases.setText(String.valueOf(nCovidLiveData.getTodayCases()));
+        holder.todayDeaths.setText(String.valueOf(nCovidLiveData.getTodayDeaths()));
     }
 
     @Override

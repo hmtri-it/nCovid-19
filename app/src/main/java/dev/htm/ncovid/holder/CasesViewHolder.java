@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import dev.htm.ncovid.R;
 
 public class CasesViewHolder extends RecyclerView.ViewHolder {
-    public TextView country_name, total_case, recovered, critical, deaths, todayCases;
+    public TextView country_name, total_case, recovered, critical, deaths, todayCases, todayDeaths;
 
 
     public CasesViewHolder(View view) {
@@ -20,6 +20,7 @@ public class CasesViewHolder extends RecyclerView.ViewHolder {
         critical = view.findViewById(R.id.critical);
         deaths = view.findViewById(R.id.deaths);
         todayCases = view.findViewById(R.id.todayCases);
+        todayDeaths = view.findViewById(R.id.todayDeaths);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

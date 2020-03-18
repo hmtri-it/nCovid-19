@@ -67,6 +67,7 @@
                 android:id="@+id/totalCases"
                 layout="@layout/item_view_pager_header_shimmer" />
 
+
             <!-- TODO Add <TextView> for title of Category list -->
             <TextView
                 android:id="@+id/titleApp"
@@ -92,7 +93,8 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="50dp"
                 android:clipToPadding="false"
-                android:scrollbars="none"
+                android:layoutAnimation="@anim/layout_animation_fall_down"
+                android:scrollbars="vertical"
                 tools:listitem="@layout/item_recycler_cases_shimmer" />
 
             <TextView

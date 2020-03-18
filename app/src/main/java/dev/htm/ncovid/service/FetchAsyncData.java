@@ -17,11 +17,14 @@ import static dev.htm.ncovid.BuildConfig.BASE_URL;
  * Get the endpoint https://corona.lmao.ninja/all to get information for all cases
  * get the endpoint https://corona.lmao.ninja/countries for getting the data sorted country wise
  * get the endpoint https://corona.lmao.ninja/countries/[country-country_name] for getting the data for a specific country
+ * get the endpoint https://corona.lmao.ninja/countries?sort=[property]
+ * for getting the data sorted country wise, sorting by property (ex. cases, todayCases, deaths, todayDeaths, recovered, critical)
  */
 public class FetchAsyncData extends AsyncTask<String, Void, String> {
 
     public static final String ALL = "all";
     public static final String COUNTRIES = "countries";
+    public static final String COUNTRIES_SORT = "countries?sort=";
     private static final String TAG = FetchAsyncData.class.getSimpleName();
     public final String COUNTRIES_NAME = "countries/";
     private Context context;

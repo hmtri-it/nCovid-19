@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,16 +46,18 @@ import dev.htm.ncovid.service.FetchAsyncData;
 import dev.htm.ncovid.service.OnCallback;
 import dev.htm.ncovid.util.GetDataUtil;
 
-public class MainActivity extends AppCompatActivity implements OnCallback, NCVidCasesAdapter.onListener {
+public class MainActivity extends AppCompatActivity implements OnCallback, NCVidCasesAdapter.onListener, View.OnClickListener {
 
 
-    private TextView tv_today, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, country, version;
+    private TextView tv_statistics, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, country, version;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private PieChart pieChart;
+    private CardView pt_cases, pt_deaths, pt_recovered;
 
     private List<NCovidLiveData> nCovidLiveDataList;
     private NCVidCasesAdapter mAdapter;
+    private String today = null;
 
 
     @Override
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
     }
 
     private void initView() {
-        tv_today = findViewById(R.id.today);
+        tv_statistics = findViewById(R.id.tv_statistics);
         tv_totConfirmedCases = findViewById(R.id.tot_cnfm_cases);
         tv_totalDeaths = findViewById(R.id.tot_deaths);
         tv_totalRecovered = findViewById(R.id.cases_recovered);
@@ -74,13 +78,23 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         country = findViewById(R.id.country);
         recyclerView = findViewById(R.id.recyclerCase);
         version = findViewById(R.id.version);
+
+        pt_cases = findViewById(R.id.pt_cases);
+        pt_deaths = findViewById(R.id.pt_deaths);
+        pt_recovered = findViewById(R.id.pt_recovered);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle(R.string.action_search);
-
+        tv_statistics.setText("• Statistics of Worldwide");
         version.setText(getString(R.string.app_name) + " v" + BuildConfig.VERSION_NAME);
+
+        //onclick
+        pt_cases.setOnClickListener(this);
+        pt_deaths.setOnClickListener(this);
+        pt_recovered.setOnClickListener(this);
 
 
     }
@@ -93,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         GetDataUtil.totalCase(this, FetchAsyncData.COUNTRIES, this, FetchAsyncData.COUNTRIES);
     }
 
+    private void loadCountriesDataWithSortNCoVid(String property) {
+        GetDataUtil.totalCase(this, FetchAsyncData.COUNTRIES_SORT + property, this, FetchAsyncData.COUNTRIES_SORT);
+    }
+
     @Override
     public void onSuccess(String type, String data) {
         Gson gson = new GsonBuilder().create();
@@ -101,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 TotalCase totalCase = gson.fromJson(data, TotalCase.class);
                 DateTime dt = new DateTime(totalCase.getUpdated());
                 DateTimeFormatter fmt = DateTimeFormat.forPattern("dd/MM/yyyy");
-                tv_today.setText("• Today " + fmt.print(dt) + " " + "of Worldwide");
+                today = "• " + fmt.print(dt);
                 tv_totConfirmedCases.setText(String.valueOf(totalCase.getCases()));
                 tv_totalDeaths.setText(String.valueOf(totalCase.getDeaths()));
                 tv_totalRecovered.setText(String.valueOf(totalCase.getRecovered()));
@@ -109,11 +127,12 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 buildPieChart(totalCase.getDeaths(), totalCase.getRecovered(), totalCase.getCases());
                 break;
             case FetchAsyncData.COUNTRIES:
+            case FetchAsyncData.COUNTRIES_SORT:
 
                 Type collectionType = new TypeToken<Collection<NCovidLiveData>>() {
                 }.getType();
                 Collection<NCovidLiveData> nCovidLiveDatas = gson.fromJson(data, collectionType);
-                country.setText(String.valueOf(nCovidLiveDatas.size() + " Regions"));
+                country.setText(String.valueOf("• Total " + nCovidLiveDatas.size() + " Regions"));
                 setUpRecyclerView(nCovidLiveDatas);
                 break;
         }
@@ -220,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         data.setValueTextSize(14);
         pieChart.setData(data);
         Description desc = new Description();
-        desc.setText(getString(R.string.app_name));
+        desc.setText(today);
         desc.setTextSize(14.0f);
         pieChart.setDescription(desc);
         pieChart.animateXY(3000,3000, Easing.EaseInQuart);
@@ -228,4 +247,18 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         pieChart.setDrawEntryLabels(false);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.pt_cases:
+                loadCountriesDataWithSortNCoVid("cases");
+                break;
+            case R.id.pt_deaths:
+                loadCountriesDataWithSortNCoVid("deaths");
+                break;
+            case R.id.pt_recovered:
+                loadCountriesDataWithSortNCoVid("recovered");
+                break;
+        }
+    }
 }

@@ -47,7 +47,7 @@ import dev.htm.ncovid.util.GetDataUtil;
 public class MainActivity extends AppCompatActivity implements OnCallback, NCVidCasesAdapter.onListener {
 
 
-    private TextView tv_today, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, version;
+    private TextView tv_today, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, country, version;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private PieChart pieChart;
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         tv_totalDeaths = findViewById(R.id.tot_deaths);
         tv_totalRecovered = findViewById(R.id.cases_recovered);
         pieChart = findViewById(R.id.reportPieChart);
+        country = findViewById(R.id.country);
         recyclerView = findViewById(R.id.recyclerCase);
         version = findViewById(R.id.version);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 Type collectionType = new TypeToken<Collection<NCovidLiveData>>() {
                 }.getType();
                 Collection<NCovidLiveData> nCovidLiveDatas = gson.fromJson(data, collectionType);
+                country.setText(String.valueOf(nCovidLiveDatas.size() + " Regions"));
                 setUpRecyclerView(nCovidLiveDatas);
                 break;
         }

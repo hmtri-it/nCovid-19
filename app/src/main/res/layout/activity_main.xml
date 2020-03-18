@@ -70,14 +70,14 @@
 
             <!-- TODO Add <TextView> for title of Category list -->
             <TextView
-                android:id="@+id/titleApp"
+                android:id="@+id/country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/totalCases"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="16dp"
-                android:text="@string/country"
+                android:text="Waiting...."
                 android:textColor="@color/colorPrimary"
                 android:textSize="19sp"
                 android:textStyle="bold" />
@@ -87,7 +87,7 @@
                 android:id="@+id/recyclerCase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/titleApp"
+                android:layout_below="@+id/country"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="8dp"

@@ -1,7 +1,7 @@
 # nCovid-19
 CoronaVirus Tracker Android App
 
-<img src="https://raw.githubusercontent.com/hmtri-it/nCovid-19/master/screenshots/Screenshot_1584511869.png" width="200"> <img src="https://raw.githubusercontent.com/hmtri-it/nCovid-19/master/screenshots/Screenshot_1584511885.png" width="200"> <img src="https://raw.githubusercontent.com/hmtri-it/nCovid-19/master/screenshots/Screenshot_1584511911.png" width="200">
+<img src="https://raw.githubusercontent.com/hmtri-it/nCovid-19/master/screenshots/Screenshot_1584513041.png" width="200"> <img src="https://raw.githubusercontent.com/hmtri-it/nCovid-19/master/screenshots/Screenshot_1584513056.png" width="200"> <img src="https://raw.githubusercontent.com/hmtri-it/nCovid-19/master/screenshots/Screenshot_1584513070.png" width="200">
 
 ## Feature (Update ...)
 

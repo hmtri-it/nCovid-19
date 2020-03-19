@@ -52,20 +52,12 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="16dp">
 
-                    <com.google.android.material.appbar.AppBarLayout
-                        android:layout_width="match_parent"
+                    <SearchView
+                        android:id="@+id/search"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        tools:ignore="MissingConstraints">
-
-                        <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/toolbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            android:background="@color/colorBackground"
-                            tools:ignore="MissingConstraints" />
-
-                    </com.google.android.material.appbar.AppBarLayout>
+                        android:iconifiedByDefault="false">
+                    </SearchView>
                 </androidx.cardview.widget.CardView>
 
                 <!-- TODO Delete comment to <include below -->

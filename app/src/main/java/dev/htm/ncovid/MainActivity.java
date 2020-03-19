@@ -4,15 +4,18 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -47,8 +50,9 @@ import dev.htm.ncovid.service.FetchAsyncData;
 import dev.htm.ncovid.service.OnCallback;
 import dev.htm.ncovid.util.EndlessRecyclerViewScrollListener;
 import dev.htm.ncovid.util.GetDataUtil;
+import dev.htm.ncovid.util.NetworkHelper;
 
-public class MainActivity extends AppCompatActivity implements OnCallback, NCVidCasesAdapter.onListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnCallback, NCVidCasesAdapter.onListener, View.OnClickListener, SearchView.OnQueryTextListener {
 
 
     private TextView tv_statistics, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, country, version;
@@ -62,6 +66,13 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
     private NCVidCasesAdapter mAdapter;
     private String today = null;
 
+    private long death = 0;
+    private long recovered = 0;
+    private long cases = 0;
+
+    private Handler handler;
+    private Runnable refresh;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +80,13 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         setContentView(R.layout.activity_main);
         initView();
 
-        prepareDataNCoVId();
+        //prepareDataNCoVId();
         loadCountriesDataNCoVid();
         swipeRefreshLayout.setRefreshing(true);
     }
 
     private void initView() {
+        searchView = findViewById(R.id.search);
         tv_statistics = findViewById(R.id.tv_statistics);
         tv_totConfirmedCases = findViewById(R.id.tot_cnfm_cases);
         tv_totalDeaths = findViewById(R.id.tot_deaths);
@@ -89,13 +101,15 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         pt_deaths = findViewById(R.id.pt_deaths);
         pt_recovered = findViewById(R.id.pt_recovered);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle(R.string.action_search);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        getSupportActionBar().setTitle(R.string.action_search);
         tv_statistics.setText("• Statistics of Worldwide");
         version.setText(getString(R.string.app_name) + " v" + BuildConfig.VERSION_NAME);
+
+        searchView.setOnQueryTextListener(this);
 
         //onclick
         pt_cases.setOnClickListener(this);
@@ -109,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 loadCountriesDataNCoVid();
             }
         });
+        getbackgoundData();
+
 
     }
 
@@ -131,15 +147,46 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
     }
 
     private void prepareDataNCoVId() {
-        GetDataUtil.totalCase(this, FetchAsyncData.ALL, this, FetchAsyncData.ALL);
+        if (!NetworkHelper.CheckNetwork()) {
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            GetDataUtil.totalCase(this, FetchAsyncData.ALL, this, FetchAsyncData.ALL);
+        }
     }
 
     private void loadCountriesDataNCoVid() {
-        GetDataUtil.totalCase(this, FetchAsyncData.COUNTRIES, this, FetchAsyncData.COUNTRIES);
+        if (!NetworkHelper.CheckNetwork()) {
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            GetDataUtil.totalCase(this, FetchAsyncData.COUNTRIES, this, FetchAsyncData.COUNTRIES);
+        }
     }
 
     private void loadCountriesDataWithSortNCoVid(String property) {
-        GetDataUtil.totalCase(this, FetchAsyncData.COUNTRIES_SORT + property, this, FetchAsyncData.COUNTRIES_SORT);
+        if (!NetworkHelper.CheckNetwork()) {
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            GetDataUtil.totalCase(this, FetchAsyncData.COUNTRIES_SORT + property, this, FetchAsyncData.COUNTRIES_SORT);
+        }
+    }
+
+    private void getbackgoundData() {
+
+        handler = new Handler();
+        refresh = new Runnable() {
+            @Override
+            public void run() {
+                prepareDataNCoVId();
+                loadCountriesDataNCoVid();
+                Log.d("MAIN", "run" );
+                handler.postDelayed(this, 60*1000);
+            }
+        };
+        handler.postDelayed(refresh,2000);
+
     }
 
     @Override
@@ -155,8 +202,10 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 tv_totConfirmedCases.setText(String.valueOf(totalCase.getCases()));
                 tv_totalDeaths.setText(String.valueOf(totalCase.getDeaths()));
                 tv_totalRecovered.setText(String.valueOf(totalCase.getRecovered()));
-
-                buildPieChart(totalCase.getDeaths(), totalCase.getRecovered(), totalCase.getCases());
+                death = totalCase.getDeaths();
+                recovered = totalCase.getRecovered();
+                cases = totalCase.getCases();
+                buildPieChart(death, recovered, cases);
                 break;
             case FetchAsyncData.COUNTRIES:
             case FetchAsyncData.COUNTRIES_SORT:
@@ -166,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 Collection<NCovidLiveData> nCovidLiveDatas = gson.fromJson(data, collectionType);
                 country.setText("• Total " + nCovidLiveDatas.size() + " Regions");
                 setUpRecyclerView(nCovidLiveDatas);
+
                 break;
             default:
                 swipeRefreshLayout.setRefreshing(false);
@@ -209,51 +259,51 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         super.onBackPressed();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search)
-                .getActionView();
-        searchView.setSearchableInfo(searchManager
-                .getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
-        // listening to search query text change
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//
+//        // Associate searchable configuration with the SearchView
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchView = (SearchView) menu.findItem(R.id.action_search)
+//                .getActionView();
+//        searchView.setSearchableInfo(searchManager
+//                .getSearchableInfo(getComponentName()));
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+//
+//        // listening to search query text change
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                // filter recycler view when query submitted
+//                mAdapter.getFilter().filter(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String query) {
+//                // filter recycler view when text is changed
+//                mAdapter.getFilter().filter(query);
+//                return false;
+//            }
+//        });
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_search) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void runAnimationAgain() {
         int resId = R.anim.layout_animation_fall_down;
@@ -303,5 +353,19 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 loadCountriesDataWithSortNCoVid("recovered");
                 break;
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        // filter recycler view when query submitted
+        mAdapter.getFilter().filter(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // filter recycler view when text is changed
+        mAdapter.getFilter().filter(newText);
+        return false;
     }
 }

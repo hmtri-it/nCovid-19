@@ -39,6 +39,7 @@ public class FetchAsyncData extends AsyncTask<String, Void, String> {
         this.type = type;
     }
 
+
     @Override
     protected String doInBackground(String... strings) {
         String result = null;

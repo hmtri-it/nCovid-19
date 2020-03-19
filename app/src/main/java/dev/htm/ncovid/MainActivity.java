@@ -45,6 +45,7 @@ import dev.htm.ncovid.model.NCovidLiveData;
 import dev.htm.ncovid.model.TotalCase;
 import dev.htm.ncovid.service.FetchAsyncData;
 import dev.htm.ncovid.service.OnCallback;
+import dev.htm.ncovid.util.EndlessRecyclerViewScrollListener;
 import dev.htm.ncovid.util.GetDataUtil;
 
 public class MainActivity extends AppCompatActivity implements OnCallback, NCVidCasesAdapter.onListener, View.OnClickListener {
@@ -67,8 +68,10 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+
         prepareDataNCoVId();
         loadCountriesDataNCoVid();
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     private void initView() {
@@ -115,6 +118,18 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         super.onStart();
     }
 
+    @Override
+    protected void onResume() {
+        swipeRefreshLayout.setRefreshing(false);
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        swipeRefreshLayout.setRefreshing(false);
+        super.onStop();
+    }
+
     private void prepareDataNCoVId() {
         GetDataUtil.totalCase(this, FetchAsyncData.ALL, this, FetchAsyncData.ALL);
     }
@@ -145,13 +160,12 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 break;
             case FetchAsyncData.COUNTRIES:
             case FetchAsyncData.COUNTRIES_SORT:
-
+                swipeRefreshLayout.setRefreshing(false);
                 Type collectionType = new TypeToken<Collection<NCovidLiveData>>() {
                 }.getType();
                 Collection<NCovidLiveData> nCovidLiveDatas = gson.fromJson(data, collectionType);
                 country.setText("• Total " + nCovidLiveDatas.size() + " Regions");
                 setUpRecyclerView(nCovidLiveDatas);
-                swipeRefreshLayout.setRefreshing(false);
                 break;
             default:
                 swipeRefreshLayout.setRefreshing(false);
@@ -164,11 +178,14 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         nCovidLiveDataList = new ArrayList<>();
         nCovidLiveDataList.addAll(nCovidLiveDatas);
         mAdapter = new NCVidCasesAdapter(this, nCovidLiveDataList, this);
+        mAdapter.setHasStableIds(true);
         runAnimationAgain();
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -245,6 +262,9 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
 
         recyclerView.setLayoutAnimation(controller);
         mAdapter.notifyDataSetChanged();
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerView.scheduleLayoutAnimation();
 
     }
@@ -267,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         pieChart.animateXY(3000, 3000, Easing.EaseInQuart);
         pieChart.invalidate();
         pieChart.setDrawEntryLabels(false);
+        pieChart.setFitsSystemWindows(true);
     }
 
     @Override

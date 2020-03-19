@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
 
 
     private TextView tv_statistics, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, country, version;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private PieChart pieChart;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         tv_totalRecovered = findViewById(R.id.cases_recovered);
         pieChart = findViewById(R.id.reportPieChart);
         country = findViewById(R.id.country);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
         recyclerView = findViewById(R.id.recyclerCase);
         version = findViewById(R.id.version);
 
@@ -96,6 +99,13 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         pt_deaths.setOnClickListener(this);
         pt_recovered.setOnClickListener(this);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                prepareDataNCoVId();
+                loadCountriesDataNCoVid();
+            }
+        });
 
     }
 
@@ -113,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
 
     @Override
     public void onSuccess(String type, String data) {
+        swipeRefreshLayout.setRefreshing(false);
         Gson gson = new GsonBuilder().create();
         switch (type) {
             case FetchAsyncData.ALL:
@@ -152,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
 
     @Override
     public void onError(String error) {
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

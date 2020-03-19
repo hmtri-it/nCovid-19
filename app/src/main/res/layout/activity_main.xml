@@ -67,12 +67,11 @@
                 android:id="@+id/totalCases"
                 layout="@layout/item_view_pager_header_shimmer" />
 
-
             <LinearLayout
+                android:id="@+id/ll_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/totalCases"
-                android:id="@+id/ll_title"
                 android:orientation="horizontal">
                 <!-- TODO Add <TextView> for title of Category list -->
                 <TextView
@@ -89,22 +88,29 @@
 
             </LinearLayout>
 
-            <!-- TODO Add <RecyclerView> for display the category list -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerCase"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_title"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="50dp"
-                android:clipToPadding="false"
-                android:layoutAnimation="@anim/layout_animation_fall_down"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/item_recycler_cases_shimmer" />
+                android:layout_height="match_parent"
+                android:layout_below="@+id/totalCases">
+                <!-- TODO Add <RecyclerView> for display the category list -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerCase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_title"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="50dp"
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/layout_animation_fall_down"
+                    android:scrollbars="vertical"
+                    tools:listitem="@layout/item_recycler_cases_shimmer" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <TextView
+                android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -112,7 +118,6 @@
                 android:background="@color/colorPrimaryLight"
                 android:gravity="center"
                 android:padding="10dp"
-                android:id="@+id/version"
                 android:text="@string/app_name"
                 android:textColor="@color/colorWhite" />
 

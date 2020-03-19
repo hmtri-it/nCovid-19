@@ -109,6 +109,12 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
 
     }
 
+    @Override
+    protected void onStart() {
+        swipeRefreshLayout.setRefreshing(true);
+        super.onStart();
+    }
+
     private void prepareDataNCoVId() {
         GetDataUtil.totalCase(this, FetchAsyncData.ALL, this, FetchAsyncData.ALL);
     }
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
 
     @Override
     public void onSuccess(String type, String data) {
-        swipeRefreshLayout.setRefreshing(false);
+
         Gson gson = new GsonBuilder().create();
         switch (type) {
             case FetchAsyncData.ALL:
@@ -143,8 +149,12 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
                 Type collectionType = new TypeToken<Collection<NCovidLiveData>>() {
                 }.getType();
                 Collection<NCovidLiveData> nCovidLiveDatas = gson.fromJson(data, collectionType);
-                country.setText(String.valueOf("• Total " + nCovidLiveDatas.size() + " Regions"));
+                country.setText("• Total " + nCovidLiveDatas.size() + " Regions");
                 setUpRecyclerView(nCovidLiveDatas);
+                swipeRefreshLayout.setRefreshing(false);
+                break;
+            default:
+                swipeRefreshLayout.setRefreshing(false);
                 break;
         }
 
@@ -159,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -238,13 +249,13 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
 
     }
 
-    private void buildPieChart(long deaths, long recoveredCases, long confirmedCases){
+    private void buildPieChart(long deaths, long recoveredCases, long confirmedCases) {
         List<PieEntry> entries = new LinkedList<>();
         entries.add(new PieEntry(deaths, "Deaths"));
         entries.add(new PieEntry(confirmedCases, "Confirmed"));
         entries.add(new PieEntry(recoveredCases, "Recovered"));
-        PieDataSet set = new PieDataSet(entries,"");
-        set.setColors(new int[] {R.color.red, R.color.yellow, R.color.colorPrimaryDark}, this);
+        PieDataSet set = new PieDataSet(entries, "");
+        set.setColors(new int[]{R.color.red, R.color.yellow, R.color.colorPrimaryDark}, this);
         PieData data = new PieData(set);
         data.setValueTextColor(Color.WHITE);
         data.setValueTextSize(14);
@@ -253,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements OnCallback, NCVid
         desc.setText(today);
         desc.setTextSize(14.0f);
         pieChart.setDescription(desc);
-        pieChart.animateXY(3000,3000, Easing.EaseInQuart);
+        pieChart.animateXY(3000, 3000, Easing.EaseInQuart);
         pieChart.invalidate();
         pieChart.setDrawEntryLabels(false);
     }

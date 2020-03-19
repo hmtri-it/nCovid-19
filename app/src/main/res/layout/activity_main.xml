@@ -5,94 +5,96 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
-        android:fillViewport="true">
+        android:layout_below="@+id/cardSearch">
 
-        <RelativeLayout
-            android:id="@+id/headerView"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            android:fillViewport="true">
 
-            android:orientation="vertical">
-            <!-- TODO Add <View>-->
-            <View
+            <RelativeLayout
+                android:id="@+id/headerView"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@color/colorPrimary" />
+                android:layout_height="300dp"
 
-            <!-- TODO Add <TextView> for Title of Header -->
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="16dp"
-                android:text="@string/app_name"
-                android:textColor="@color/colorWhite"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <!-- TODO Add Search container -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/title"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="16dp">
-
-                <com.google.android.material.appbar.AppBarLayout
+                android:orientation="vertical">
+                <!-- TODO Add <View>-->
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    tools:ignore="MissingConstraints">
+                    android:layout_height="250dp"
+                    android:background="@color/colorPrimary" />
 
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:background="@color/colorBackground"
-                        tools:ignore="MissingConstraints" />
-
-                </com.google.android.material.appbar.AppBarLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- TODO Delete comment to <include below -->
-            <include
-                android:id="@+id/totalCases"
-                layout="@layout/item_view_pager_header_shimmer" />
-
-            <LinearLayout
-                android:id="@+id/ll_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/totalCases"
-                android:orientation="horizontal">
-                <!-- TODO Add <TextView> for title of Category list -->
+                <!-- TODO Add <TextView> for Title of Header -->
                 <TextView
-                    android:id="@+id/country"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="16dp"
-                    android:text="Waiting...."
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="19sp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
-            </LinearLayout>
+                <!-- TODO Add Search container -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="16dp">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/totalCases">
+                    <com.google.android.material.appbar.AppBarLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        tools:ignore="MissingConstraints">
+
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:background="@color/colorBackground"
+                            tools:ignore="MissingConstraints" />
+
+                    </com.google.android.material.appbar.AppBarLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- TODO Delete comment to <include below -->
+                <include
+                    android:id="@+id/totalCases"
+                    layout="@layout/item_view_pager_header_shimmer" />
+
+                <LinearLayout
+                    android:id="@+id/ll_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/totalCases"
+                    android:orientation="horizontal">
+                    <!-- TODO Add <TextView> for title of Category list -->
+                    <TextView
+                        android:id="@+id/country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="16dp"
+                        android:text="Waiting...."
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
                 <!-- TODO Add <RecyclerView> for display the category list -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerCase"
@@ -107,22 +109,21 @@
                     android:layoutAnimation="@anim/layout_animation_fall_down"
                     android:scrollbars="vertical"
                     tools:listitem="@layout/item_recycler_cases_shimmer" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <TextView
-                android:id="@+id/version"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorPrimaryLight"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/app_name"
-                android:textColor="@color/colorWhite" />
+                <TextView
+                    android:id="@+id/version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorPrimaryLight"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorWhite" />
 
-        </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
-
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

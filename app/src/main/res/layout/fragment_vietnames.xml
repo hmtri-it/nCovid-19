@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screen.VietNamesFragment">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_vn"
@@ -16,27 +11,30 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/cardSearch_vn">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/headerView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <!-- TODO Add Search container -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardSearch_vn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/cardSearch_vn"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="16dp"-->
+<!--                    android:layout_marginRight="16dp">-->
 
-                    <SearchView
-                        android:id="@+id/search_vn"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:iconifiedByDefault="false">
-                    </SearchView>
-                </androidx.cardview.widget.CardView>
+<!--                    <SearchView-->
+<!--                        android:id="@+id/search_vn"-->
+<!--                        android:layout_width="fill_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:iconifiedByDefault="false">-->
+<!--                    </SearchView>-->
+<!--                </androidx.cardview.widget.CardView>-->
+                <include
+                    android:id="@+id/totalCases_vn"
+                    layout="@layout/item_view_pager_header_shimmer_vn" />
 
 
                 <LinearLayout
@@ -48,13 +46,13 @@
                     android:orientation="vertical">
                     <!-- TODO Add <TextView> for title of Category list -->
                     <TextView
-                        android:id="@+id/country_vn"
+                        android:id="@+id/tt_country_vn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="16dp"
-                        android:text="Waiting...."
+                        android:text="Countries"
                         android:textColor="@color/colorPrimary"
                         android:textSize="19sp"
                         android:textStyle="bold" />
@@ -66,12 +64,11 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerCase_vn"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_below="@+id/ll_title_vn"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="50dp"
                     android:clipToPadding="false"
                     android:layoutAnimation="@anim/layout_animation_fall_down"
                     android:scrollbars="vertical"
@@ -87,9 +84,7 @@
 
                 </ProgressBar>
 
-            </RelativeLayout>
+            </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

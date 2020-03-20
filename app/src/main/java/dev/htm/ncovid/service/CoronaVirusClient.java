@@ -5,6 +5,7 @@ import java.util.List;
 import dev.htm.ncovid.BuildConfig;
 import dev.htm.ncovid.model.CoronaVirus;
 import dev.htm.ncovid.model.CoronaVirusResume;
+import dev.htm.ncovid.model.CoronaVirusVietNam;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -33,5 +34,13 @@ public class CoronaVirusClient {
 
     public Call<CoronaVirusResume> getCoronaVirusTotalWorldWide() {
         return mCoronaInterface.getCoronaVirusTotalWorldWide();
+    }
+
+    public Call<CoronaVirus> getCoronaVirusTotalVietName() {
+        return mCoronaInterface.getCoronaVirusTotalVietName();
+    }
+
+    public Call<List<CoronaVirusVietNam>> getCoronaVirusVietNames() {
+        return mCoronaInterface.getCoronaVirusVietNameInformation();
     }
 }

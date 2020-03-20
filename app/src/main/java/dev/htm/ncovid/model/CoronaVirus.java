@@ -28,4 +28,5 @@ public class CoronaVirus implements Serializable {
         this.critical = critical;
         this.casesPerOneMillion = casesPerOneMillion;
     }
+
 }

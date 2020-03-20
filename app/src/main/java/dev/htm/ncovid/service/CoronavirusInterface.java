@@ -4,6 +4,7 @@ import java.util.List;
 
 import dev.htm.ncovid.model.CoronaVirus;
 import dev.htm.ncovid.model.CoronaVirusResume;
+import dev.htm.ncovid.model.CoronaVirusVietNam;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -14,4 +15,10 @@ public interface CoronavirusInterface {
 
     @GET("countries")
     public Call<List<CoronaVirus>> getCoronaVirusCompleteInformation();
+
+    @GET("countries/vietnam")
+    public Call<CoronaVirus> getCoronaVirusTotalVietName();
+
+    @GET("https://maps.vnpost.vn/app/api/democoronas/")
+    public Call<List<CoronaVirusVietNam>> getCoronaVirusVietNameInformation();
 }

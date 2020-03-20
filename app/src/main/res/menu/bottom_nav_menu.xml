@@ -7,6 +7,11 @@
 
     <item
         android:id="@+id/navigation_worldwide"
-        android:icon="@drawable/ic_worldwide_black_24dp"
-        android:title="@string/app_name" />
+        android:icon="@drawable/country_fill"
+        android:title="@string/worldwide" />
+
+    <item
+        android:id="@+id/navigation_vietnames"
+        android:icon="@drawable/ic_location_on_black_24dp"
+        android:title="@string/vietnames" />
 </menu>

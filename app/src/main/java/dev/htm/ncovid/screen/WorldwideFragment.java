@@ -1,68 +1,50 @@
 package dev.htm.ncovid.screen;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
-import dev.htm.ncovid.BuildConfig;
 import dev.htm.ncovid.R;
 import dev.htm.ncovid.adapter.NCVidCasesAdapter;
 import dev.htm.ncovid.model.CoronaVirus;
-import dev.htm.ncovid.model.CoronaVirusResume;
-import dev.htm.ncovid.service.FetchAsyncData;
-import dev.htm.ncovid.service.OnCallback;
-import dev.htm.ncovid.util.GetDataUtil;
 import dev.htm.ncovid.util.NetworkHelper;
+import dev.htm.ncovid.util.ViewUtil;
+import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;
 
 
-public class WorldwideFragment extends Fragment implements OnCallback, NCVidCasesAdapter.onListener, View.OnClickListener, android.widget.SearchView.OnQueryTextListener {
+public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
     // TODO: Rename parameter arguments, choose names that match
+    private LinearLayout root_layout;
     private TextView country, version;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private ProgressBar progressBar;
-
-    private List<CoronaVirus> coronaVirusList;
     private NCVidCasesAdapter mAdapter;
     private String today = null;
+
+    private CoronaVirusViewModel mCoronaViewModel;
 
     private View root;
 
@@ -74,15 +56,15 @@ public class WorldwideFragment extends Fragment implements OnCallback, NCVidCase
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Toast.makeText(getActivity(), "TASTASTA", Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_worldwide, container, false);
         initView();
-        loadCountriesDataNCoVid();
+        initViewModel();
         return root;
     }
 
     private void initView() {
+        root_layout = root.findViewById(R.id.root_layout);
         searchView = root.findViewById(R.id.search);
         country = root.findViewById(R.id.country);
         swipeRefreshLayout = root.findViewById(R.id.swipe_refresh);
@@ -90,16 +72,48 @@ public class WorldwideFragment extends Fragment implements OnCallback, NCVidCase
         progressBar = root.findViewById(R.id.progress_circular_country);
 
         searchView.setOnQueryTextListener(this);
+        searchView.setOnCloseListener(this);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                prepareDataNCoVId();
-                //loadCountriesDataNCoVid();
+                initViewModel();
             }
         });
+        if (searchView != null) {
+            ViewUtil.hide(getActivity(), searchView);
+            searchView.clearFocus();
+            //ViewUtil.hideKeyboardOnTouch(getActivity(), root_layout);
+        }
+
     }
 
+    private void initViewModel() {
+        mCoronaViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(CoronaVirusViewModel.class);
+        if (!NetworkHelper.CheckNetwork()) {
+            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        } else {
+            mCoronaViewModel.getCoronaCompleteInformation();
+            mCoronaViewModel.mutableCompleteLiveData.observe(getViewLifecycleOwner(), new Observer<List<CoronaVirus>>() {
+                @Override
+                public void onChanged(List<CoronaVirus> coronaVirus) {
+                    UpdateTotalRegions(coronaVirus.size());
+                    setUpRecyclerView(coronaVirus);
+                    swipeRefreshLayout.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+
+
+    }
+
+
+    private void UpdateTotalRegions(int size) {
+        country.setText("• Total " + size + " Regions");
+    }
     @Override
     public void onStart() {
         swipeRefreshLayout.setRefreshing(true);
@@ -111,9 +125,20 @@ public class WorldwideFragment extends Fragment implements OnCallback, NCVidCase
     public void onResume() {
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.VISIBLE);
+        if (searchView != null) {
+            ViewUtil.hide(getActivity(), searchView);
+        }
         super.onResume();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (searchView != null) {
+            ViewUtil.hide(getActivity(), searchView);
+        }
+    }
     @Override
     public void onStop() {
         swipeRefreshLayout.setRefreshing(false);
@@ -121,74 +146,15 @@ public class WorldwideFragment extends Fragment implements OnCallback, NCVidCase
         super.onStop();
     }
 
-    private void prepareDataNCoVId() {
-        if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
-        } else {
-            GetDataUtil.totalCase(getActivity(), FetchAsyncData.ALL, this, FetchAsyncData.ALL);
-        }
-    }
-
-    private void loadCountriesDataNCoVid() {
-        if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
-        } else {
-            GetDataUtil.totalCase(getActivity(), FetchAsyncData.COUNTRIES, this, FetchAsyncData.COUNTRIES);
-        }
-    }
-
-    private void loadCountriesDataWithSortNCoVid(String property) {
-        if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
-        } else {
-            GetDataUtil.totalCase(getActivity(), FetchAsyncData.COUNTRIES_SORT + property, this, FetchAsyncData.COUNTRIES_SORT);
-        }
-    }
-
-    @Override
-    public void onSuccess(String type, String data) {
-
-        Gson gson = new GsonBuilder().create();
-        switch (type) {
-            case FetchAsyncData.COUNTRIES:
-            case FetchAsyncData.COUNTRIES_SORT:
-                swipeRefreshLayout.setRefreshing(false);
-                Type collectionType = new TypeToken<Collection<CoronaVirus>>() {
-                }.getType();
-                Collection<CoronaVirus> coronaViri = gson.fromJson(data, collectionType);
-                country.setText("• Total " + coronaViri.size() + " Regions");
-                setUpRecyclerView(coronaViri);
-                progressBar.setVisibility(View.GONE);
-
-                break;
-            default:
-                swipeRefreshLayout.setRefreshing(false);
-                break;
-        }
-
-    }
-
-    private void setUpRecyclerView(Collection<CoronaVirus> coronaViri) {
-        coronaVirusList = new ArrayList<>();
-        coronaVirusList.addAll(coronaViri);
-        mAdapter = new NCVidCasesAdapter(getActivity(), coronaVirusList, this);
-        mAdapter.setHasStableIds(true);
+    private void setUpRecyclerView(List<CoronaVirus> virusList) {
+        mAdapter = new NCVidCasesAdapter(getActivity(), virusList, this);
         runAnimationAgain();
-        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onError(String error) {
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -212,24 +178,10 @@ public class WorldwideFragment extends Fragment implements OnCallback, NCVidCase
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.pt_cases:
-                loadCountriesDataWithSortNCoVid("cases");
-                break;
-            case R.id.pt_deaths:
-                loadCountriesDataWithSortNCoVid("deaths");
-                break;
-            case R.id.pt_recovered:
-                loadCountriesDataWithSortNCoVid("recovered");
-                break;
-        }
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
         // filter recycler view when query submitted
         mAdapter.getFilter().filter(query);
+        searchView.clearFocus();
         return false;
     }
 
@@ -237,7 +189,42 @@ public class WorldwideFragment extends Fragment implements OnCallback, NCVidCase
     public boolean onQueryTextChange(String newText) {
         // filter recycler view when text is changed
         mAdapter.getFilter().filter(newText);
+
+        UpdateTotalRegions(mAdapter.getCoronaVirusListFiltered().size());
         return false;
+    }
+
+    @Override
+    public boolean onClose() {
+        hideKeyboard();
+        return false;
+    }
+
+
+    /**
+     * Hide Soft KeyBoard When Click on crossIcon of SearchView
+     */
+
+    private boolean hideKeyboard() {
+        try {
+            if (searchView.hasFocus()) {
+                Log.d("alert", "hiding and removing focus");
+                searchView.clearFocus();
+
+                searchView.setIconified(true);
+                //   used to again closed searchview  after clear text from click on cross button
+            }
+
+            InputMethodManager imm =
+                    (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

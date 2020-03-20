@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/categoryCardView"
+        android:id="@+id/categoryCardView_vn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
         <LinearLayout
@@ -27,14 +27,14 @@
             android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
             <ImageView
-                android:id="@+id/img_location"
+                android:id="@+id/img_location_vn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 app:srcCompat="@drawable/ic_location_on_black_24dp"
                 tools:ignore="VectorDrawableCompat" />
             <TextView
-                android:id="@+id/country"
+                android:id="@+id/country_vn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -53,16 +53,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/img_timeline"
+                    android:id="@+id/img_timeline_vn"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
+                    android:paddingRight="5dp"
                     app:srcCompat="@drawable/ic_timeline_black_24dp"
                     tools:ignore="VectorDrawableCompat" />
 
                 <TextView
-                    android:id="@+id/cases"
+                    android:id="@+id/cases_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -72,7 +72,7 @@
                     android:textSize="14dp" />
 
                 <TextView
-                    android:id="@+id/caseValue"
+                    android:id="@+id/caseValue_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -82,44 +82,26 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14dp" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/recoveredlabel_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Recoveries: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
 
-                    <ImageView
-                        android:id="@+id/img_verified_recovered"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:layout_margin="5dp"
-                        app:srcCompat="@drawable/ic_verified_user_black_24dp"
-                        tools:ignore="VectorDrawableCompat" />
-
-                    <TextView
-                        android:id="@+id/recoveredlabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/google_sans_medium"
-                        android:text="Recoveries: "
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:id="@+id/recovered"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginRight="15dp"
-                        android:fontFamily="@font/google_sans_regular"
-                        android:text="N/A"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
-
-
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/recovered_vn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_regular"
+                    android:text="N/A"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -128,17 +110,17 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/img_user"
+                    android:id="@+id/img_use_vnr"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginTop="1dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
+                    android:paddingRight="5dp"
                     app:srcCompat="@drawable/ic_user_24dp"
                     tools:ignore="VectorDrawableCompat" />
 
                 <TextView
-                    android:id="@+id/deathslabel"
+                    android:id="@+id/deathslabel_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="23dp"
                     android:layout_marginTop="3dp"
@@ -148,7 +130,7 @@
                     android:textSize="14dp" />
 
                 <TextView
-                    android:id="@+id/deaths"
+                    android:id="@+id/deaths_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -158,47 +140,26 @@
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
 
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/criticallabel_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="Critical: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
 
-                    <ImageView
-                        android:id="@+id/img_critical"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:layout_margin="5dp"
-                        app:srcCompat="@drawable/ic_timelapse_black_24dp"
-                        tools:ignore="VectorDrawableCompat" />
-
-                    <TextView
-                        android:id="@+id/criticallabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/google_sans_medium"
-                        android:text="Critical: "
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:id="@+id/critical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginRight="15dp"
-                        android:fontFamily="@font/google_sans_medium"
-                        android:text="N/A"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
-
-
-                </LinearLayout>
-
-
-
+                <TextView
+                    android:id="@+id/critical_vn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/google_sans_medium"
+                    android:text="N/A"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp" />
             </LinearLayout>
 
 
@@ -208,16 +169,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/img_exposure"
+                    android:id="@+id/img_exposure_vn"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
+                    android:paddingRight="5dp"
                     app:srcCompat="@drawable/ic_exposure_black_24dp"
                     tools:ignore="VectorDrawableCompat" />
 
                 <TextView
-                    android:id="@+id/today_cases"
+                    android:id="@+id/today_cases_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -227,7 +188,7 @@
                     android:textSize="14dp" />
 
                 <TextView
-                    android:id="@+id/todayCases"
+                    android:id="@+id/todayCases_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -246,16 +207,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/img_exposure_todayDeaths"
+                    android:id="@+id/img_exposure_todayDeaths_vn"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
+                    android:paddingRight="5dp"
                     app:srcCompat="@drawable/ic_exposure_black_death_24dp"
                     tools:ignore="VectorDrawableCompat" />
 
                 <TextView
-                    android:id="@+id/lbtodayDeaths"
+                    android:id="@+id/lbtodayDeaths_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -265,7 +226,7 @@
                     android:textSize="14dp" />
 
                 <TextView
-                    android:id="@+id/todayDeaths"
+                    android:id="@+id/todayDeaths_vn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -275,47 +236,8 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14dp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/img_verified_active"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:layout_margin="5dp"
-                        app:srcCompat="@drawable/ic_verified_user_red_24dp"
-                        tools:ignore="VectorDrawableCompat" />
-
-                    <TextView
-                        android:id="@+id/lbactive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/google_sans_medium"
-                        android:text="Active: "
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:id="@+id/active"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginRight="15dp"
-                        android:fontFamily="@font/google_sans_medium"
-                        android:text="N/A"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
-
-
-                </LinearLayout>
 
             </LinearLayout>
-
-
 
 
         </LinearLayout>

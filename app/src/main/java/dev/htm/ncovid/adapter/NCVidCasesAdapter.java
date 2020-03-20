@@ -32,6 +32,10 @@ public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
         this.coronaVirusListFiltered = coronaVirusList;
     }
 
+    public List<CoronaVirus> getCoronaVirusListFiltered() {
+        return coronaVirusListFiltered;
+    }
+
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -81,11 +85,13 @@ public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
         final CoronaVirus coronaVirus = coronaVirusListFiltered.get(position);
         holder.country_name.setText(coronaVirus.getCountry());
         holder.total_case.setText(String.valueOf(coronaVirus.getCases()));
+        holder.todayCases.setText(String.valueOf(coronaVirus.getTodayCases()));
+        holder.deaths.setText(String.valueOf(coronaVirus.getDeaths()));
+        holder.todayDeaths.setText(String.valueOf(coronaVirus.getTodayDeaths()));
         holder.recovered.setText(String.valueOf(coronaVirus.getRecovered()));
         holder.critical.setText(String.valueOf(coronaVirus.getCritical()));
-        holder.deaths.setText(String.valueOf(coronaVirus.getDeaths()));
-        holder.todayCases.setText(String.valueOf(coronaVirus.getTodayCases()));
-        holder.todayDeaths.setText(String.valueOf(coronaVirus.getTodayDeaths()));
+        holder.active.setText(String.valueOf(coronaVirus.getActive()));
+
     }
 
     @Override

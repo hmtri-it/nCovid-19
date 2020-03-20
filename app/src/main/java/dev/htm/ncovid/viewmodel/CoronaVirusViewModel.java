@@ -17,7 +17,7 @@ import retrofit2.Response;
 public class CoronaVirusViewModel extends ViewModel {
 
     public MutableLiveData<CoronaVirusResume> mutableResumeLiveData = new MutableLiveData<>();
-    MutableLiveData<List<CoronaVirus>> mutableCompleteLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<CoronaVirus>> mutableCompleteLiveData = new MutableLiveData<>();
 
     public MutableLiveData<CoronaVirusResume> getMutableResumeLiveData() {
         return mutableResumeLiveData;
@@ -32,7 +32,7 @@ public class CoronaVirusViewModel extends ViewModel {
                     long deaths = response.body().getDeaths();
                     long recovered = response.body().getRecovered();
                     long updated = response.body().getUpdated();
-                    mutableResumeLiveData.setValue(new CoronaVirusResume(cases, deaths, recovered,updated));
+                    mutableResumeLiveData.setValue(new CoronaVirusResume(cases, deaths, recovered, updated));
                 }
             }
 
@@ -45,24 +45,26 @@ public class CoronaVirusViewModel extends ViewModel {
     }
 
     public void getCoronaCompleteInformation() {
-        final List<CoronaVirus> coronaVirusData = new ArrayList<>();
+        List<CoronaVirus> coronaVirusDatas = new ArrayList<>();
         CoronaVirusClient.getInstance().getCoronaVirusCompleteInformation().enqueue(new Callback<List<CoronaVirus>>() {
             @Override
             public void onResponse(@NonNull Call<List<CoronaVirus>> call, @NonNull Response<List<CoronaVirus>> response) {
                 if (response.body() != null) {
                     for (int i = 0; i < response.body().size(); i++) {
-                        coronaVirusData.add(new CoronaVirus(
+                        coronaVirusDatas.add(new CoronaVirus(
                                 response.body().get(i).getCountry(),
-                                response.body().get(i).getRecovered(),
                                 response.body().get(i).getCases(),
-                                response.body().get(i).getCritical(),
-                                response.body().get(i).getDeaths(),
                                 response.body().get(i).getTodayCases(),
-                                response.body().get(i).getTodayDeaths()
+                                response.body().get(i).getDeaths(),
+                                response.body().get(i).getTodayDeaths(),
+                                response.body().get(i).getRecovered(),
+                                response.body().get(i).getActive(),
+                                response.body().get(i).getCritical(),
+                                response.body().get(i).getCasesPerOneMillion()
                         ));
 
                     }
-                    mutableCompleteLiveData.setValue(coronaVirusData);
+                    mutableCompleteLiveData.setValue(coronaVirusDatas);
                 }
             }
 

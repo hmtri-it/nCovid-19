@@ -5,11 +5,9 @@ CoronaVirus Tracker Android App
 
 ## Feature (Update ...)
 
-- Leading Page
 - News Feed
 - Country wise searching
 - PieChart
-- Support sort by property
 
 # API used 
 
@@ -18,7 +16,8 @@ https://corona.lmao.ninja/
 ##  Tech Specification
 - AndroidX
 - Java 8
-- OkHTTP for network request
+- Retrofit for network request
+- ViewModel
 - Gson
 - Recyclerview
 - UI Material

@@ -49,7 +49,7 @@ import dev.htm.ncovid.util.NetworkHelper;
 import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;
 
 
-public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdapter.onListener, View.OnClickListener {
+public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdapter.onListener {
     // TODO: Rename parameter arguments, choose names that match
     private TextView tv_statistics, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, country, version;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -97,16 +97,9 @@ public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdap
 
         tv_statistics.setText("• Statistics of Worldwide");
 
-        //onclick
-        pt_cases.setOnClickListener(this);
-        pt_deaths.setOnClickListener(this);
-        pt_recovered.setOnClickListener(this);
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //prepareDataNCoVId();
-                //loadCountriesDataNCoVid();
                 initViewModel();
             }
         });
@@ -245,21 +238,6 @@ public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdap
         pieChart.invalidate();
         pieChart.setDrawEntryLabels(false);
         pieChart.setFitsSystemWindows(true);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.pt_cases:
-                loadCountriesDataWithSortNCoVid("cases");
-                break;
-            case R.id.pt_deaths:
-                loadCountriesDataWithSortNCoVid("deaths");
-                break;
-            case R.id.pt_recovered:
-                loadCountriesDataWithSortNCoVid("recovered");
-                break;
-        }
     }
 
 }

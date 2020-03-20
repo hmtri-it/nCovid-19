@@ -15,12 +15,24 @@
         app:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/img_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/ic_location_on_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
             <TextView
                 android:id="@+id/country"
                 android:layout_width="wrap_content"
@@ -28,10 +40,12 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/google_sans_bold"
                 android:maxLines="2"
+                android:layout_margin="5dp"
                 android:text="Country"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorWhiteDark"
                 android:textStyle="bold"
-                android:textSize="16dp" />
+                android:textSize="20sp" />
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"

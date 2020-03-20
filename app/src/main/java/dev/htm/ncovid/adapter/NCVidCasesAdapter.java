@@ -15,21 +15,21 @@ import java.util.List;
 
 import dev.htm.ncovid.R;
 import dev.htm.ncovid.holder.CasesViewHolder;
-import dev.htm.ncovid.model.NCovidLiveData;
+import dev.htm.ncovid.model.CoronaVirus;
 
 public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
         implements Filterable {
 
     private Context context;
-    private List<NCovidLiveData> nCovidLiveDataList;
-    private List<NCovidLiveData> nCovidLiveDataListFiltered;
+    private List<CoronaVirus> coronaVirusList;
+    private List<CoronaVirus> coronaVirusListFiltered;
     private onListener listener;
 
-    public NCVidCasesAdapter(Context context, List<NCovidLiveData> nCovidLiveDataList, onListener listener) {
+    public NCVidCasesAdapter(Context context, List<CoronaVirus> coronaVirusList, onListener listener) {
         this.context = context;
         this.listener = listener;
-        this.nCovidLiveDataList = nCovidLiveDataList;
-        this.nCovidLiveDataListFiltered = nCovidLiveDataList;
+        this.coronaVirusList = coronaVirusList;
+        this.coronaVirusListFiltered = coronaVirusList;
     }
 
     @Override
@@ -39,10 +39,10 @@ public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
-                    nCovidLiveDataListFiltered = nCovidLiveDataList;
+                    coronaVirusListFiltered = coronaVirusList;
                 } else {
-                    List<NCovidLiveData> filteredList = new ArrayList<>();
-                    for (NCovidLiveData row : nCovidLiveDataList) {
+                    List<CoronaVirus> filteredList = new ArrayList<>();
+                    for (CoronaVirus row : coronaVirusList) {
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
@@ -51,17 +51,17 @@ public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
                         }
                     }
 
-                    nCovidLiveDataListFiltered = filteredList;
+                    coronaVirusListFiltered = filteredList;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = nCovidLiveDataListFiltered;
+                filterResults.values = coronaVirusListFiltered;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                nCovidLiveDataListFiltered = (ArrayList<NCovidLiveData>) filterResults.values;
+                coronaVirusListFiltered = (ArrayList<CoronaVirus>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -78,22 +78,22 @@ public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull CasesViewHolder holder, int position) {
-        final NCovidLiveData nCovidLiveData = nCovidLiveDataListFiltered.get(position);
-        holder.country_name.setText(nCovidLiveData.getCountry());
-        holder.total_case.setText(String.valueOf(nCovidLiveData.getCases()));
-        holder.recovered.setText(String.valueOf(nCovidLiveData.getRecovered()));
-        holder.critical.setText(String.valueOf(nCovidLiveData.getCritical()));
-        holder.deaths.setText(String.valueOf(nCovidLiveData.getDeaths()));
-        holder.todayCases.setText(String.valueOf(nCovidLiveData.getTodayCases()));
-        holder.todayDeaths.setText(String.valueOf(nCovidLiveData.getTodayDeaths()));
+        final CoronaVirus coronaVirus = coronaVirusListFiltered.get(position);
+        holder.country_name.setText(coronaVirus.getCountry());
+        holder.total_case.setText(String.valueOf(coronaVirus.getCases()));
+        holder.recovered.setText(String.valueOf(coronaVirus.getRecovered()));
+        holder.critical.setText(String.valueOf(coronaVirus.getCritical()));
+        holder.deaths.setText(String.valueOf(coronaVirus.getDeaths()));
+        holder.todayCases.setText(String.valueOf(coronaVirus.getTodayCases()));
+        holder.todayDeaths.setText(String.valueOf(coronaVirus.getTodayDeaths()));
     }
 
     @Override
     public int getItemCount() {
-        return nCovidLiveDataListFiltered.size();
+        return coronaVirusListFiltered.size();
     }
 
     public interface onListener {
-        void onItemSelected(NCovidLiveData cases);
+        void onItemSelected(CoronaVirus cases);
     }
 }

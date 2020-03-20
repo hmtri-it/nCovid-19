@@ -44,8 +44,8 @@
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/reportPieChart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="50" />
+                    android:layout_height="300dp"
+                    />
             </LinearLayout>
 
 

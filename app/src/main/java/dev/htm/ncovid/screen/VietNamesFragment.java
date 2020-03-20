@@ -20,6 +20,10 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,7 +45,8 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
     private RecyclerView recyclerViewVn;
     //private SearchView searchViewVn;
     private ProgressBar progressBarVn;
-    private TextView tv_statistics_vn, tv_totConfirmedCases_vn, tv_totalDeaths_vn, tv_totalRecovered_vn, tv_active_vn, version;
+    private TextView tv_statistics_vn, tv_totConfirmedCases_vn, tv_todayCase_vn, tv_totalDeaths_vn,
+            tv_totalRecovered_vn, tv_active_vn, version;
 
     private NCVidCasesVietNamAdapter mAdapter;
     private CoronaVirusViewModel mCoronaViewModel;
@@ -66,6 +71,7 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
 
         tv_statistics_vn = root.findViewById(R.id.tv_statistics_vn);
         tv_totConfirmedCases_vn = root.findViewById(R.id.tot_cnfm_cases_vn);
+        tv_todayCase_vn = root.findViewById(R.id.today_cases_vn);
         tv_totalDeaths_vn = root.findViewById(R.id.tot_deaths_vn);
         tv_totalRecovered_vn = root.findViewById(R.id.cases_recovered_vn);
         tv_active_vn = root.findViewById(R.id.cases_active_vn);
@@ -106,7 +112,11 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
             mCoronaViewModel.mutableResumeLiveDataVn.observe(getViewLifecycleOwner(), new Observer<CoronaVirus>() {
                 @Override
                 public void onChanged(CoronaVirus coronaVirus) {
+                    DateTime dt = new DateTime();
+                    DateTimeFormatter fmt = DateTimeFormat.forPattern("hh:mm dd/MM/yyyy");
+                    tv_statistics_vn.setText("• Statistics last updated at: " + fmt.print(dt));
                     tv_totConfirmedCases_vn.setText(String.valueOf(coronaVirus.getCases()));
+                    tv_todayCase_vn.setText(String.valueOf(coronaVirus.getTodayCases()));
                     tv_totalDeaths_vn.setText(String.valueOf(coronaVirus.getDeaths()));
                     tv_totalRecovered_vn.setText(String.valueOf(coronaVirus.getRecovered()));
                     tv_active_vn.setText(String.valueOf(coronaVirus.getActive()));

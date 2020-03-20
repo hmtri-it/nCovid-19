@@ -18,38 +18,28 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import dev.htm.ncovid.BuildConfig;
 import dev.htm.ncovid.R;
 import dev.htm.ncovid.adapter.NCVidCasesAdapter;
 import dev.htm.ncovid.model.CoronaVirus;
 import dev.htm.ncovid.model.CoronaVirusResume;
-import dev.htm.ncovid.service.FetchAsyncData;
-import dev.htm.ncovid.service.OnCallback;
-import dev.htm.ncovid.util.GetDataUtil;
 import dev.htm.ncovid.util.NetworkHelper;
 import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;
 
 
-public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdapter.onListener {
+public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListener {
     // TODO: Rename parameter arguments, choose names that match
     private TextView tv_statistics, tv_totConfirmedCases, tv_totalDeaths, tv_totalRecovered, country, version;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -107,25 +97,30 @@ public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdap
 
     private void initViewModel() {
         mCoronaViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(CoronaVirusViewModel.class);
-
-        mCoronaViewModel.getCoronaResumeInformation();
-        mCoronaViewModel.mutableResumeLiveData.observe(getViewLifecycleOwner(), new Observer<CoronaVirusResume>() {
-            @Override
-            public void onChanged(CoronaVirusResume coronaVirusResume) {
-                DateTime dt = new DateTime(coronaVirusResume.getUpdated());
-                DateTimeFormatter fmt = DateTimeFormat.forPattern("dd/MM/yyyy");
-                today = "• " + fmt.print(dt);
-                tv_totConfirmedCases.setText(String.valueOf(coronaVirusResume.getCases()));
-                tv_totalDeaths.setText(String.valueOf(coronaVirusResume.getDeaths()));
-                tv_totalRecovered.setText(String.valueOf(coronaVirusResume.getRecovered()));
-                death = coronaVirusResume.getDeaths();
-                recovered = coronaVirusResume.getRecovered();
-                cases = coronaVirusResume.getCases();
-                buildPieChart(death, recovered, cases);
-                swipeRefreshLayout.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+        if (!NetworkHelper.CheckNetwork()) {
+            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        } else {
+            mCoronaViewModel.getCoronaResumeInformation();
+            mCoronaViewModel.mutableResumeLiveData.observe(getViewLifecycleOwner(), new Observer<CoronaVirusResume>() {
+                @Override
+                public void onChanged(CoronaVirusResume coronaVirusResume) {
+                    DateTime dt = new DateTime(coronaVirusResume.getUpdated());
+                    DateTimeFormatter fmt = DateTimeFormat.forPattern("hh:mm dd/MM/yyyy");
+                    today = fmt.print(dt);
+                    tv_totConfirmedCases.setText(String.valueOf(coronaVirusResume.getCases()));
+                    tv_totalDeaths.setText(String.valueOf(coronaVirusResume.getDeaths()));
+                    tv_totalRecovered.setText(String.valueOf(coronaVirusResume.getRecovered()));
+                    death = coronaVirusResume.getDeaths();
+                    recovered = coronaVirusResume.getRecovered();
+                    cases = coronaVirusResume.getCases();
+                    buildPieChart(death, recovered, cases);
+                    swipeRefreshLayout.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     @Override
@@ -146,73 +141,6 @@ public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdap
         super.onStop();
     }
 
-    private void prepareDataNCoVId() {
-        if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
-        } else {
-            GetDataUtil.totalCase(getActivity(), FetchAsyncData.ALL, this, FetchAsyncData.ALL);
-        }
-    }
-
-    private void loadCountriesDataNCoVid() {
-        if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
-        } else {
-            GetDataUtil.totalCase(getActivity(), FetchAsyncData.COUNTRIES, this, FetchAsyncData.COUNTRIES);
-        }
-    }
-
-    private void loadCountriesDataWithSortNCoVid(String property) {
-        if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
-        } else {
-            GetDataUtil.totalCase(getActivity(), FetchAsyncData.COUNTRIES_SORT + property, this, FetchAsyncData.COUNTRIES_SORT);
-        }
-    }
-
-
-    @Override
-    public void onSuccess(String type, String data) {
-
-        Gson gson = new GsonBuilder().create();
-        switch (type) {
-            case FetchAsyncData.ALL:
-                CoronaVirusResume coronaVirusResume = gson.fromJson(data, CoronaVirusResume.class);
-                DateTime dt = new DateTime(coronaVirusResume.getUpdated());
-                DateTimeFormatter fmt = DateTimeFormat.forPattern("dd/MM/yyyy");
-                today = "• " + fmt.print(dt);
-                tv_totConfirmedCases.setText(String.valueOf(coronaVirusResume.getCases()));
-                tv_totalDeaths.setText(String.valueOf(coronaVirusResume.getDeaths()));
-                tv_totalRecovered.setText(String.valueOf(coronaVirusResume.getRecovered()));
-                death = coronaVirusResume.getDeaths();
-                recovered = coronaVirusResume.getRecovered();
-                cases = coronaVirusResume.getCases();
-                buildPieChart(death, recovered, cases);
-                break;
-            case FetchAsyncData.COUNTRIES:
-            case FetchAsyncData.COUNTRIES_SORT:
-                swipeRefreshLayout.setRefreshing(false);
-                Type collectionType = new TypeToken<Collection<CoronaVirus>>() {
-                }.getType();
-                Collection<CoronaVirus> coronaViri = gson.fromJson(data, collectionType);
-                country.setText("• Total " + coronaViri.size() + " Regions");
-                break;
-            default:
-                swipeRefreshLayout.setRefreshing(false);
-                break;
-        }
-
-    }
-
-
-    @Override
-    public void onError(String error) {
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
     @Override
     public void onItemSelected(CoronaVirus cases) {
 
@@ -225,19 +153,40 @@ public class HomeFragment extends Fragment implements OnCallback, NCVidCasesAdap
         entries.add(new PieEntry(confirmedCases, "Confirmed"));
         entries.add(new PieEntry(recoveredCases, "Recovered"));
         PieDataSet set = new PieDataSet(entries, "");
+
         set.setColors(new int[]{R.color.red, R.color.yellow, R.color.colorPrimaryDark}, getActivity());
         PieData data = new PieData(set);
         data.setValueTextColor(Color.WHITE);
-        data.setValueTextSize(14);
+        data.setValueTextSize(14f);
+        data.setValueFormatter(new PercentFormatter(pieChart));
+
+
+
+        // enable hole and configure
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleRadius(15);
+        pieChart.setTransparentCircleRadius(15);
+        pieChart.setUsePercentValues(true);
+        pieChart.setHighlightPerTapEnabled(true);
         pieChart.setData(data);
+
         Description desc = new Description();
         desc.setText(today);
         desc.setTextSize(14.0f);
         pieChart.setDescription(desc);
-        pieChart.animateXY(3000, 3000, Easing.EaseInQuart);
+        pieChart.animateXY(1000, 1000, Easing.EaseInQuart);
         pieChart.invalidate();
-        pieChart.setDrawEntryLabels(false);
+        pieChart.setDrawEntryLabels(true);
+        pieChart.invalidate();
         pieChart.setFitsSystemWindows(true);
+
+        Legend l = pieChart.getLegend();
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+
+
+
     }
 
 }

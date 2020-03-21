@@ -68,7 +68,7 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="Number of Cases: "
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/caseValue"
@@ -79,7 +79,7 @@
                     android:fontFamily="@font/google_sans_regular"
                     android:text="N/A"
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
                         android:fontFamily="@font/google_sans_medium"
                         android:text="Recoveries: "
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/recovered"
@@ -114,7 +114,7 @@
                         android:fontFamily="@font/google_sans_regular"
                         android:text="N/A"
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
 
                 </LinearLayout>
@@ -144,7 +144,7 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="Deaths: "
                     android:textColor="@android:color/black"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/deaths"
@@ -155,7 +155,7 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="N/A"
                     android:textColor="@android:color/black"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
 
                 <LinearLayout
@@ -180,7 +180,7 @@
                         android:fontFamily="@font/google_sans_medium"
                         android:text="Critical: "
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/critical"
@@ -191,7 +191,7 @@
                         android:fontFamily="@font/google_sans_medium"
                         android:text="N/A"
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
 
                 </LinearLayout>
@@ -223,7 +223,7 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="Today's Cases: "
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/todayCases"
@@ -234,15 +234,7 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="N/A"
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/img_exposure_todayDeaths"
@@ -261,7 +253,7 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="Today's Deaths: "
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/todayDeaths"
@@ -272,11 +264,21 @@
                     android:fontFamily="@font/google_sans_medium"
                     android:text="N/A"
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -296,7 +298,7 @@
                         android:fontFamily="@font/google_sans_medium"
                         android:text="Active: "
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/active"
@@ -307,7 +309,34 @@
                         android:fontFamily="@font/google_sans_medium"
                         android:text="N/A"
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lb_fatality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginRight="15dp"
+                        android:fontFamily="@font/google_sans_medium"
+                        android:text="Fatality Rate: "
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/fatality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginRight="15dp"
+                        android:fontFamily="@font/google_sans_medium"
+                        android:background="@drawable/round_corner_background"
+                        android:text="N/A"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhiteDark" />
 
 
                 </LinearLayout>

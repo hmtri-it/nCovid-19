@@ -16,6 +16,7 @@ import java.util.List;
 import dev.htm.ncovid.R;
 import dev.htm.ncovid.holder.CasesViewHolder;
 import dev.htm.ncovid.model.CoronaVirus;
+import dev.htm.ncovid.screen.HomeFragment;
 
 public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
         implements Filterable {
@@ -91,6 +92,10 @@ public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
         holder.recovered.setText(String.valueOf(coronaVirus.getRecovered()));
         holder.critical.setText(String.valueOf(coronaVirus.getCritical()));
         holder.active.setText(String.valueOf(coronaVirus.getActive()));
+
+        double percentage = 100 * Double.parseDouble(coronaVirus.getDeaths())/HomeFragment.cases;
+        String percentageText = String.format("%2.02f", percentage) +"%";
+        holder.tv_fatality.setText(percentageText);
 
     }
 

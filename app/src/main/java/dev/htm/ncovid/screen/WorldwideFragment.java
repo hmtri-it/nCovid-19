@@ -37,7 +37,7 @@ import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;
 public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
     // TODO: Rename parameter arguments, choose names that match
     private LinearLayout root_layout;
-    private TextView country;
+    private TextView tv_country;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private SearchView searchView;
@@ -66,7 +66,7 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
     private void initView() {
         root_layout = root.findViewById(R.id.root_layout);
         searchView = root.findViewById(R.id.search);
-        country = root.findViewById(R.id.country);
+        tv_country = root.findViewById(R.id.country);
         swipeRefreshLayout = root.findViewById(R.id.swipe_refresh);
         recyclerView = root.findViewById(R.id.recyclerCase);
         progressBar = root.findViewById(R.id.progress_circular_country);
@@ -112,8 +112,9 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void UpdateTotalRegions(int size) {
-        country.setText(String.format("• Total %d Regions  at of today %s", size, ViewUtil.showDatetime(false, System.currentTimeMillis())));
+        tv_country.setText(String.format("• Total %d Regions  at of today %s", size, ViewUtil.showDatetime(false, System.currentTimeMillis())));
     }
+
     @Override
     public void onStart() {
         swipeRefreshLayout.setRefreshing(true);
@@ -139,6 +140,7 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
             ViewUtil.hide(getActivity(), searchView);
         }
     }
+
     @Override
     public void onStop() {
         swipeRefreshLayout.setRefreshing(false);

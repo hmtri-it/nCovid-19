@@ -1,5 +1,6 @@
 package dev.htm.ncovid.screen;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
     private String today = null;
     private long death = 0;
     private long recovered = 0;
-    private long cases = 0;
+    public static long cases = 0;
     private CoronaVirusViewModel mCoronaViewModel;
     private ProgressBar progressBar;
     private View root;
@@ -66,6 +67,7 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
         return root;
     }
 
+    @SuppressLint("SetTextI18n")
     private void initView() {
 
         tv_statistics = root.findViewById(R.id.tv_statistics);

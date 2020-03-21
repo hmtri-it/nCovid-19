@@ -24,10 +24,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -151,20 +147,21 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
         entries.add(new PieEntry(confirmedCases, "Confirmed"));
         entries.add(new PieEntry(deaths, "Deaths"));
         entries.add(new PieEntry(recoveredCases, "Recovered"));
-        PieDataSet set = new PieDataSet(entries, "");
+        PieDataSet dataSet = new PieDataSet(entries, "");
 
-        set.setColors(new int[]{R.color.yellow, R.color.red, R.color.colorPrimaryDark}, getActivity());
-        PieData data = new PieData(set);
+        dataSet.setColors(new int[]{R.color.yellow, R.color.red, R.color.colorPrimaryDark}, getActivity());
+        dataSet.setSliceSpace(2f);
+        dataSet.setSelectionShift(2f);
+
+        PieData data = new PieData(dataSet);
         data.setValueTextColor(Color.WHITE);
         data.setValueTextSize(14f);
         data.setValueFormatter(new PercentFormatter(pieChart));
 
-
-
         // enable hole and configure
         pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleRadius(15);
-        pieChart.setTransparentCircleRadius(15);
+        pieChart.setHoleRadius(20f);
+        pieChart.setTransparentCircleRadius(10f);
         pieChart.setUsePercentValues(true);
         pieChart.setHighlightPerTapEnabled(true);
         pieChart.setData(data);
@@ -173,17 +170,20 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
         desc.setText(today);
         desc.setTextSize(14.0f);
         pieChart.setDescription(desc);
+        pieChart.setDrawRoundedSlices(true);
+        pieChart.setDrawSlicesUnderHole(true);
+        pieChart.setMinAngleForSlices(15f);
         pieChart.animateXY(1000, 1000, Easing.EaseInQuart);
         pieChart.invalidate();
         pieChart.setDrawEntryLabels(true);
         pieChart.invalidate();
         pieChart.setFitsSystemWindows(true);
 
+
         Legend l = pieChart.getLegend();
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-
 
 
     }

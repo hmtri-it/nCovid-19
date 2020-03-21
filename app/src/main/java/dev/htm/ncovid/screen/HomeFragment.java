@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
     private long death = 0;
     private long recovered = 0;
     public static long cases = 0;
+    public static long updated = 0;
     private CoronaVirusViewModel mCoronaViewModel;
     private ProgressBar progressBar;
     private View root;
@@ -109,6 +110,7 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
                     tv_totConfirmedCases.setText(String.valueOf(coronaVirusResume.getCases()));
                     tv_totalDeaths.setText(String.valueOf(coronaVirusResume.getDeaths()));
                     tv_totalRecovered.setText(String.valueOf(coronaVirusResume.getRecovered()));
+                    updated = coronaVirusResume.getUpdated();
                     death = coronaVirusResume.getDeaths();
                     recovered = coronaVirusResume.getRecovered();
                     cases = coronaVirusResume.getCases();

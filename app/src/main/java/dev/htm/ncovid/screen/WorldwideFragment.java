@@ -112,7 +112,7 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void UpdateTotalRegions(int size) {
-        tv_country.setText(String.format("• Total %d Regions  at of today %s", size, ViewUtil.showDatetime(false, System.currentTimeMillis())));
+        tv_country.setText(String.format("• Total %d Regions  at of %s", size, ViewUtil.showDatetime(true, HomeFragment.updated)));
     }
 
     @Override

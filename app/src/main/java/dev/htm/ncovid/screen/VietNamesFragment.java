@@ -100,7 +100,7 @@ public class VietNamesFragment extends Fragment implements NCVidCasesVietNamAdap
             mCoronaViewModel.mutableResumeLiveDataVn.observe(getViewLifecycleOwner(), new Observer<CoronaVirus>() {
                 @Override
                 public void onChanged(CoronaVirus coronaVirus) {
-                    tv_statistics_vn.setText(String.format("• Statistics last updated at: %s", ViewUtil.showDatetime(true, System.currentTimeMillis())));
+                    tv_statistics_vn.setText(String.format("• Statistics last updated at: %s", ViewUtil.showDatetime(true, HomeFragment.updated)));
                     tv_totConfirmedCases_vn.setText(String.valueOf(coronaVirus.getCases()));
                     tv_todayCase_vn.setText(String.valueOf(coronaVirus.getTodayCases()));
                     tv_totalDeaths_vn.setText(String.valueOf(coronaVirus.getDeaths()));

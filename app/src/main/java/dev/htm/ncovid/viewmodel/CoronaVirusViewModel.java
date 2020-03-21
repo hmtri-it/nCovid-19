@@ -110,8 +110,8 @@ public class CoronaVirusViewModel extends ViewModel {
                     for (int i = 0; i < response.body().size(); i++) {
                         coronaVirusVietNamsDatas.add(new CoronaVirusVietNam(
                                 response.body().get(i).getRecovered(),
-                                response.body().get(i).getDate(),
                                 response.body().get(i).getDoubt(),
+                                response.body().get(i).getDate(),
                                 response.body().get(i).getAddress(),
                                 response.body().get(i).getDeaths(),
                                 response.body().get(i).getNumber()

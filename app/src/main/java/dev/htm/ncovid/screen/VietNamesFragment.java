@@ -1,6 +1,14 @@
 package dev.htm.ncovid.screen;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -10,43 +18,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.widget.ProgressBar;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import dev.htm.ncovid.R;
-import dev.htm.ncovid.adapter.NCVidCasesAdapter;
 import dev.htm.ncovid.adapter.NCVidCasesVietNamAdapter;
 import dev.htm.ncovid.model.CoronaVirus;
 import dev.htm.ncovid.model.CoronaVirusVietNam;
 import dev.htm.ncovid.util.NetworkHelper;
+import dev.htm.ncovid.util.ViewUtil;
 import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;
 
 
-public class VietNamesFragment extends Fragment implements SearchView.OnQueryTextListener, NCVidCasesVietNamAdapter.onListener {
+public class VietNamesFragment extends Fragment implements NCVidCasesVietNamAdapter.onListener {
     private View root;
     private TextView countryVn;
     private SwipeRefreshLayout swipeRefreshLayoutVn;
     private RecyclerView recyclerViewVn;
-    //private SearchView searchViewVn;
     private ProgressBar progressBarVn;
     private TextView tv_statistics_vn, tv_totConfirmedCases_vn, tv_todayCase_vn, tv_totalDeaths_vn,
-            tv_totalRecovered_vn, tv_active_vn, version;
+            tv_totalRecovered_vn, tv_active_vn;
 
     private NCVidCasesVietNamAdapter mAdapter;
     private CoronaVirusViewModel mCoronaViewModel;
@@ -67,7 +57,6 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
     }
 
     private void initView() {
-        //searchViewVn = root.findViewById(R.id.search_vn);
 
         tv_statistics_vn = root.findViewById(R.id.tv_statistics_vn);
         tv_totConfirmedCases_vn = root.findViewById(R.id.tot_cnfm_cases_vn);
@@ -81,7 +70,6 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
         progressBarVn = root.findViewById(R.id.progress_circular_country_vn);
         countryVn.setText(getString(R.string.country));
 
-        //searchViewVn.setOnQueryTextListener(this);
 
         swipeRefreshLayoutVn.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -94,7 +82,7 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
     private void initViewModel() {
         mCoronaViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(CoronaVirusViewModel.class);
         if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.check_connection), Toast.LENGTH_SHORT).show();
             swipeRefreshLayoutVn.setRefreshing(false);
             progressBarVn.setVisibility(View.GONE);
         } else {
@@ -112,9 +100,7 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
             mCoronaViewModel.mutableResumeLiveDataVn.observe(getViewLifecycleOwner(), new Observer<CoronaVirus>() {
                 @Override
                 public void onChanged(CoronaVirus coronaVirus) {
-                    DateTime dt = new DateTime();
-                    DateTimeFormatter fmt = DateTimeFormat.forPattern("hh:mm dd/MM/yyyy");
-                    tv_statistics_vn.setText("• Statistics last updated at: " + fmt.print(dt));
+                    tv_statistics_vn.setText(String.format("• Statistics last updated at: %s", ViewUtil.showDatetime(true, System.currentTimeMillis())));
                     tv_totConfirmedCases_vn.setText(String.valueOf(coronaVirus.getCases()));
                     tv_todayCase_vn.setText(String.valueOf(coronaVirus.getTodayCases()));
                     tv_totalDeaths_vn.setText(String.valueOf(coronaVirus.getDeaths()));
@@ -153,16 +139,6 @@ public class VietNamesFragment extends Fragment implements SearchView.OnQueryTex
         recyclerViewVn.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerViewVn.scheduleLayoutAnimation();
 
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
     }
 
     @Override

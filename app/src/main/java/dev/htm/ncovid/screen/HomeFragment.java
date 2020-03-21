@@ -36,6 +36,7 @@ import dev.htm.ncovid.adapter.NCVidCasesAdapter;
 import dev.htm.ncovid.model.CoronaVirus;
 import dev.htm.ncovid.model.CoronaVirusResume;
 import dev.htm.ncovid.util.NetworkHelper;
+import dev.htm.ncovid.util.ViewUtil;
 import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;
 
 
@@ -98,7 +99,7 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
     private void initViewModel() {
         mCoronaViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(CoronaVirusViewModel.class);
         if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.check_connection), Toast.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
         } else {
@@ -106,16 +107,14 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
             mCoronaViewModel.mutableResumeLiveData.observe(getViewLifecycleOwner(), new Observer<CoronaVirusResume>() {
                 @Override
                 public void onChanged(CoronaVirusResume coronaVirusResume) {
-                    DateTime dt = new DateTime(coronaVirusResume.getUpdated());
-                    DateTimeFormatter fmt = DateTimeFormat.forPattern("hh:mm dd/MM/yyyy");
-                    today = fmt.print(dt);
+                    today = ViewUtil.showDatetime(true, coronaVirusResume.getUpdated());
                     tv_totConfirmedCases.setText(String.valueOf(coronaVirusResume.getCases()));
                     tv_totalDeaths.setText(String.valueOf(coronaVirusResume.getDeaths()));
                     tv_totalRecovered.setText(String.valueOf(coronaVirusResume.getRecovered()));
                     death = coronaVirusResume.getDeaths();
                     recovered = coronaVirusResume.getRecovered();
                     cases = coronaVirusResume.getCases();
-                    buildPieChart(death, recovered, cases);
+                    buildPieChart(cases, death, recovered);
                     swipeRefreshLayout.setRefreshing(false);
                     progressBar.setVisibility(View.GONE);
                 }
@@ -147,14 +146,14 @@ public class HomeFragment extends Fragment implements NCVidCasesAdapter.onListen
     }
 
 
-    private void buildPieChart(long deaths, long recoveredCases, long confirmedCases) {
+    private void buildPieChart(long confirmedCases, long deaths, long recoveredCases) {
         List<PieEntry> entries = new LinkedList<>();
-        entries.add(new PieEntry(deaths, "Deaths"));
         entries.add(new PieEntry(confirmedCases, "Confirmed"));
+        entries.add(new PieEntry(deaths, "Deaths"));
         entries.add(new PieEntry(recoveredCases, "Recovered"));
         PieDataSet set = new PieDataSet(entries, "");
 
-        set.setColors(new int[]{R.color.red, R.color.yellow, R.color.colorPrimaryDark}, getActivity());
+        set.setColors(new int[]{R.color.yellow, R.color.red, R.color.colorPrimaryDark}, getActivity());
         PieData data = new PieData(set);
         data.setValueTextColor(Color.WHITE);
         data.setValueTextSize(14f);

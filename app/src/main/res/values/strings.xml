@@ -9,4 +9,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="vietnames">Viet Nam</string>
     <string name="worldwide">World Wide</string>
+    <string name="check_connection">Please check your internet connection</string>
 </resources>

@@ -10,9 +10,19 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 public class ViewUtil {
 
-    private static final String LOG_TAG = "SoftKeyboardHelper";
+    private static final String LOG_TAG = "ViewUtil";
+
+    public static String showDatetime(boolean isOption, long mils) {
+        DateTime dt = new DateTime(mils);
+        DateTimeFormatter fmt = isOption ? DateTimeFormat.forPattern("hh:mm dd/MM/yyyy"): DateTimeFormat.forPattern("dd/MM/yyyy");
+        return fmt.print(dt);
+    }
 
     public static void hideKeyboardOnTouch(Activity activity, View view) {
         // Set up touch listener for non-text box views to hide keyboard.

@@ -1,5 +1,6 @@
 package dev.htm.ncovid.screen;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,13 +37,12 @@ import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;
 public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
     // TODO: Rename parameter arguments, choose names that match
     private LinearLayout root_layout;
-    private TextView country, version;
+    private TextView country;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private ProgressBar progressBar;
     private NCVidCasesAdapter mAdapter;
-    private String today = null;
 
     private CoronaVirusViewModel mCoronaViewModel;
 
@@ -81,9 +81,8 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
             }
         });
         if (searchView != null) {
-            ViewUtil.hide(getActivity(), searchView);
+            ViewUtil.show(getActivity());
             searchView.clearFocus();
-            //ViewUtil.hideKeyboardOnTouch(getActivity(), root_layout);
         }
 
     }
@@ -91,7 +90,7 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
     private void initViewModel() {
         mCoronaViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(CoronaVirusViewModel.class);
         if (!NetworkHelper.CheckNetwork()) {
-            Toast.makeText(getActivity(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.check_connection, Toast.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
         } else {
@@ -111,8 +110,9 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
     }
 
 
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void UpdateTotalRegions(int size) {
-        country.setText("• Total " + size + " Regions");
+        country.setText(String.format("• Total %d Regions  at of today %s", size, ViewUtil.showDatetime(false, System.currentTimeMillis())));
     }
     @Override
     public void onStart() {
@@ -190,7 +190,7 @@ public class WorldwideFragment extends Fragment implements NCVidCasesAdapter.onL
         // filter recycler view when text is changed
         mAdapter.getFilter().filter(newText);
 
-        UpdateTotalRegions(mAdapter.getCoronaVirusListFiltered().size());
+        UpdateTotalRegions(mAdapter.getItemCount());
         return false;
     }
 

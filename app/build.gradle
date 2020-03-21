@@ -1,15 +1,23 @@
 apply plugin: 'com.android.application'
 
+ext.versionMajor = 1
+ext.versionMinor = 2
+ext.versionPatch = 3
+ext.versionClassifier = null
+ext.isSnapshot = true
+ext.minimumSdkVersion = 15
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "dev.htm.ncovid"
-        minSdkVersion 15
+        minSdkVersion project.ext.minimumSdkVersion
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode() // ex: 17777777
+        versionName generateVersionName() // 1.2.3-SNAPSHOT
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        setProperty("archivesBaseName", rootProject.name + "-$versionCode" + "-$versionName")
     }
     buildTypes {
         release {
@@ -53,4 +61,20 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+}
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null && ext.isSnapshot) {
+        ext.versionClassifier = "SNAPSHOT"
+    }
+
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName;
 }

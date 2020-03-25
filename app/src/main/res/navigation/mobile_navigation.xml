@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="dev.htm.ncovid.screen.HomeFragment"
+        android:name="dev.htm.ncovid.screen.fragment.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_vietnames"
-        android:name="dev.htm.ncovid.screen.VietNamesFragment"
+        android:name="dev.htm.ncovid.screen.fragment.VietNamesFragment"
         android:label="@string/vietnames"
         tools:layout="@layout/fragment_vietnames" />
 
     <fragment
         android:id="@+id/navigation_worldwide"
-        android:name="dev.htm.ncovid.screen.WorldwideFragment"
+        android:name="dev.htm.ncovid.screen.fragment.WorldwideFragment"
         android:label="@string/worldwide"
         tools:layout="@layout/fragment_worldwide" />
 

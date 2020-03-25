@@ -1,4 +1,4 @@
-package dev.htm.ncovid;
+package dev.htm.ncovid.screen.activity;
 
 import android.os.Bundle;
 
@@ -9,6 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import dev.htm.ncovid.R;
 
 public class MainActivity extends AppCompatActivity {
 

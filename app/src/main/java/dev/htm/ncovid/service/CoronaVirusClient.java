@@ -3,9 +3,9 @@ package dev.htm.ncovid.service;
 import java.util.List;
 
 import dev.htm.ncovid.BuildConfig;
-import dev.htm.ncovid.model.CoronaVirus;
-import dev.htm.ncovid.model.CoronaVirusResume;
-import dev.htm.ncovid.model.CoronaVirusVietNam;
+import dev.htm.ncovid.data.model.CoronaVirus;
+import dev.htm.ncovid.data.model.CoronaVirusResume;
+import dev.htm.ncovid.data.model.CoronaVirusVietNam;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

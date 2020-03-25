@@ -1,24 +1,18 @@
-package dev.htm.ncovid.adapter;
+package dev.htm.ncovid.screen.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import dev.htm.ncovid.R;
 import dev.htm.ncovid.holder.CasesVietNameViewHolder;
-import dev.htm.ncovid.holder.CasesViewHolder;
-import dev.htm.ncovid.model.CoronaVirus;
-import dev.htm.ncovid.model.CoronaVirusVietNam;
+import dev.htm.ncovid.data.model.CoronaVirusVietNam;
 
 public class NCVidCasesVietNamAdapter extends RecyclerView.Adapter<CasesVietNameViewHolder> {
 

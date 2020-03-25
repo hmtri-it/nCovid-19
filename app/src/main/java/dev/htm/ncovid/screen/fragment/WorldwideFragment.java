@@ -1,4 +1,4 @@
-package dev.htm.ncovid.screen;
+package dev.htm.ncovid.screen.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -27,8 +27,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.List;
 
 import dev.htm.ncovid.R;
-import dev.htm.ncovid.adapter.NCVidCasesAdapter;
-import dev.htm.ncovid.model.CoronaVirus;
+import dev.htm.ncovid.screen.adapter.NCVidCasesAdapter;
+import dev.htm.ncovid.data.model.CoronaVirus;
 import dev.htm.ncovid.util.NetworkHelper;
 import dev.htm.ncovid.util.ViewUtil;
 import dev.htm.ncovid.viewmodel.CoronaVirusViewModel;

@@ -1,4 +1,4 @@
-package dev.htm.ncovid.adapter;
+package dev.htm.ncovid.screen.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import java.util.List;
 
 import dev.htm.ncovid.R;
 import dev.htm.ncovid.holder.CasesViewHolder;
-import dev.htm.ncovid.model.CoronaVirus;
-import dev.htm.ncovid.screen.HomeFragment;
+import dev.htm.ncovid.data.model.CoronaVirus;
+import dev.htm.ncovid.screen.fragment.HomeFragment;
 
 public class NCVidCasesAdapter extends RecyclerView.Adapter<CasesViewHolder>
         implements Filterable {

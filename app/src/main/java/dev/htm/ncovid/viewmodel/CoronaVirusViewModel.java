@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import dev.htm.ncovid.model.CoronaVirus;
-import dev.htm.ncovid.model.CoronaVirusResume;
-import dev.htm.ncovid.model.CoronaVirusVietNam;
+import dev.htm.ncovid.data.model.CoronaVirus;
+import dev.htm.ncovid.data.model.CoronaVirusResume;
+import dev.htm.ncovid.data.model.CoronaVirusVietNam;
 import dev.htm.ncovid.service.CoronaVirusClient;
 import retrofit2.Call;
 import retrofit2.Callback;

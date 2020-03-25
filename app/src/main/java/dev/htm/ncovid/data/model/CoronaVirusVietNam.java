@@ -1,4 +1,4 @@
-package dev.htm.ncovid.model;
+package dev.htm.ncovid.data.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,4 +1,4 @@
-package dev.htm.ncovid.model;
+package dev.htm.ncovid.data.model;
 
 import java.io.Serializable;
 

@@ -103,7 +103,7 @@ Apply Type _object _ purpose structure. Layout file names should match the name 
 #### 1.2.3 Menu files
 
 Because menu doesn't include Android component, naming Menu should follow name of screen.
-For example, in `MainActivity`, file menu name will be `activity_main.xml`
+For example, in `MainActivity`, file menu name will be `menu_activity_main.xml`
 
 Naming file should not include `menu` because files already is in `menu` folder.
 

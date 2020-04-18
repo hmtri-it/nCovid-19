@@ -19,6 +19,6 @@ public interface CoronavirusInterface {
     @GET("countries/vietnam")
     public Call<CoronaVirus> getCoronaVirusTotalVietName();
 
-    @GET("https://maps.vnpost.vn/app/api/democoronas/")
+    @GET("<??>")
     public Call<List<CoronaVirusVietNam>> getCoronaVirusVietNameInformation();
 }

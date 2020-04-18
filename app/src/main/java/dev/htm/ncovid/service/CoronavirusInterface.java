@@ -16,7 +16,7 @@ public interface CoronavirusInterface {
     @GET("countries")
     public Call<List<CoronaVirus>> getCoronaVirusCompleteInformation();
 
-    @GET("countries/vietnam")
+    @GET("countries/Viet%20Nam")
     public Call<CoronaVirus> getCoronaVirusTotalVietName();
 
     @GET("<??>")

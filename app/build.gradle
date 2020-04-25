@@ -23,10 +23,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"https://corona.lmao.ninja/\"")
+            buildConfigField("String", "BASE_URL", "\"https://corona.lmao.ninja/v2/\"")
         }
         debug {
-            buildConfigField "String", "BASE_URL", "\"https://corona.lmao.ninja/\""
+            buildConfigField "String", "BASE_URL", "\"https://corona.lmao.ninja/v2/\""
         }
     }
 

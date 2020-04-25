@@ -14,9 +14,21 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class ViewUtil {
 
     private static final String LOG_TAG = "ViewUtil";
+
+    public static String getFormatedNumber(String number) {
+        if (!number.isEmpty()) {
+            double val = Double.parseDouble(number);
+            return NumberFormat.getNumberInstance(Locale.getDefault()).format(val);
+        } else {
+            return "0";
+        }
+    }
 
     public static String showDatetime(boolean isOption, long mils) {
         DateTime dt = new DateTime(mils);

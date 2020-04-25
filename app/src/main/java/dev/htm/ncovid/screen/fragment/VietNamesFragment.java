@@ -86,16 +86,17 @@ public class VietNamesFragment extends Fragment implements NCVidCasesVietNamAdap
             swipeRefreshLayoutVn.setRefreshing(false);
             progressBarVn.setVisibility(View.GONE);
         } else {
-            mCoronaViewModel.getCoronaVietNameCompleteInformation();
-            mCoronaViewModel.mutableCompleteLiveDataVn.observe(getViewLifecycleOwner(), new Observer<List<CoronaVirusVietNam>>() {
-                @Override
-                public void onChanged(List<CoronaVirusVietNam> coronaVirus) {
-                    setUpRecyclerView(coronaVirus);
-                    swipeRefreshLayoutVn.setRefreshing(false);
+//            mCoronaViewModel.getCoronaVietNameCompleteInformation();
+//            mCoronaViewModel.mutableCompleteLiveDataVn.observe(getViewLifecycleOwner(), new Observer<List<CoronaVirusVietNam>>() {
+//                @Override
+//                public void onChanged(List<CoronaVirusVietNam> coronaVirus) {
+//                    setUpRecyclerView(coronaVirus);
+//                    swipeRefreshLayoutVn.setRefreshing(false);
+//                    progressBarVn.setVisibility(View.GONE);
+//                }
+//            });
+            swipeRefreshLayoutVn.setRefreshing(false);
                     progressBarVn.setVisibility(View.GONE);
-                }
-            });
-
             mCoronaViewModel.getCoronaVirusTotalVietName();
             mCoronaViewModel.mutableResumeLiveDataVn.observe(getViewLifecycleOwner(), new Observer<CoronaVirus>() {
                 @Override
